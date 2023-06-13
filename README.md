@@ -115,9 +115,7 @@ import time
 import pubsub as ps
 
 manager = ps.load_manager()
-for i in range(10):
+for i in range(60):
     ps.publish(manager, 'my-channel', f'Hello World {i}!')
     time.sleep(1)
 ```
-
-> **IMPORTANT NOTE**: A limitation with this implementation is that a message is received by the first process that calls `listen` on a channel. Thus, if you have multiple processes listening on the same channel, only one of them will receive the message. This is because the `listen` method uses a `Queue` to receive messages, and a `Queue` can only be read by one process. This is not a problem if you only have one process listening on a channel, or if you have multiple processes listening on different channels. However, if you have multiple processes listening on the same channel, you might want to use redis instead, or modify this implementation (e.g. by assigning a queue to each listener rather than to a channel).
