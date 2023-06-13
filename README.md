@@ -1,8 +1,25 @@
 Table of content:
+- [Installation](#installation)
 - [Motivation](#motivation)
   - [Inspiration](#inspiration)
   - [Why not use redis?](#why-not-use-redis)
 - [Implementation](#implementation)
+
+# Installation
+
+This is a pure python implementation, so you only need to run this:
+```bash
+git clone https://github.com/xhluca/simple-pubsub
+cd simple-pubsub
+```
+
+If you want to run the flask app demo:
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install flask
+```
+
 
 # Motivation
 
