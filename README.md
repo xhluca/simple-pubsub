@@ -41,7 +41,7 @@ pub.sendMessage('my-channel', arg1='abc', arg2=123)
 
 This, of course, is more powerful as you can send non-string messages. However, this does not allow you to write scripts that only execute when a message is available. You can, of course, use a `while True` loop and sleep for a bit, but this is not ideal. Similarly, [this tutorial](https://dev.to/mandrewcito/lazy-pub-sub-python-implementation-3fi8) concisely implements a pub/sub system, but also by attaching a callback to an object when you subscribe.
 
-Why do I want a blocking iterator? Can I not refactor my code to use callbacks? It might be possible come up with various scenarios, but my main reason is to be able to stream data via iterators. For example, in Flask, [you can stream data to the client](https://flask.palletsprojects.com/en/2.3.x/patterns/streaming/) by returning an iterator:
+Why do I want a blocking iterator? Can I not refactor my code to use callbacks? It might be possible to come up with various scenarios where blocking is preferable, but my main reason is to be able to stream data via iterators. For example, in Flask, [you can stream data to the client](https://flask.palletsprojects.com/en/2.3.x/patterns/streaming/) by returning an iterator:
 
 ```python
 from flask import Flask, stream_with_context
