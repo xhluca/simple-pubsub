@@ -25,7 +25,7 @@ class Pubsub:
     def subscribe(self, *channels):
         self.unsubscribe(*channels)  # Remove previous subscriptions
         for channel in channels:
-            q = self.manager.create_queue(channel, self.uid)
+            q = self.manager.get_queue(channel, self.uid)
             self.listeners[channel] = Listener(q, partial(self._put_message, channel))
             self.listeners[channel].start()
     
@@ -50,7 +50,6 @@ def load_manager(host="localhost", port=40080, authkey="abracadabra", register=T
 
     if register:
         QueueManager.register('get_queue')
-        QueueManager.register('create_queue')
         QueueManager.register('delete_queue')
         QueueManager.register('get_subkeys')
     
