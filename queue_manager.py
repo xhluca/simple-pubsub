@@ -7,24 +7,20 @@ class QueueManager(BaseManager): pass
 
 lock = Lock()
 
-queue_dicts = defaultdict(dict)
+# This will automatically create a dictionary of Queues
+queue_dicts = defaultdict(lambda: defaultdict(lambda: Queue()))
 
 def get_queue(key, subkey='default'):
     with lock:
         return queue_dicts[key][subkey]
 
-def create_queue(key, subkey='default'):
-    with lock:
-        if subkey not in queue_dicts[key]:
-            queue_dicts[key][subkey] = Queue()
-        return queue_dicts[key][subkey]
-
 def delete_queue(key, subkey='default'):
     with lock:
+        if subkey not in queue_dicts[key]:
+            return  # Skip if subkey does not exist
         q = queue_dicts[key][subkey]
-        # Empty the queue
-        while not q.empty():
-            q.get()
+        while not q.empty(): # Empty the queue
+            q.get(blocking=False)
         del queue_dicts[key][subkey]
 
 def get_subkeys(key):
@@ -32,7 +28,6 @@ def get_subkeys(key):
         return list(queue_dicts[key].keys())
 
 QueueManager.register('get_queue', callable=get_queue)
-QueueManager.register('create_queue', callable=create_queue)
 QueueManager.register('delete_queue', callable=delete_queue)
 QueueManager.register('get_subkeys', callable=get_subkeys)
 
